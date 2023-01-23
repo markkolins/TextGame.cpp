@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+
+// Class for a text-based adventure game
+class AdventureGame {
+public:
+    // Function to start the game
+    void start() {
+        std::cout << "Welcome to the adventure game!" << std::endl;
+
+        // Initialize the player's location and inventory
+        std::string location = "starting room";
+        std::vector<std::string> inventory;
+
+        // Game loop
+        while (true) {
+            // Print the player's current location and inventory
+            std::cout << "You are currently in the " << location << "." << std::endl;
+            std::cout << "You have the following items in your inventory: ";
+            for (const auto &item : inventory) {
+                std::cout << item << " ";
+            }
+            std::cout << std::endl;
+
+            // Get the player's next action
+            std::string action;
+            std::cout << "What would you like to do? (move, pick up, use, quit): ";
+            std::cin >> action;
+
+            // Handle the player's action
+            if (action == "move") {
+                std::string direction;
+                std::cout << "Which direction would you like to move? (north, south, east, west): ";
+                std::cin >> direction;
+                move(location, direction);
+            } else if (action == "pick up") {
+                std::string item;
+                std::cout << "What item would you like to pick up? ";
+                std::cin >> item;
+                pickUp(location, inventory, item);
+            } else if (action == "use") {
+                std::string item;
+                std::cout << "What item would you like to use? ";
+                std::cin >> item;
+                use(location, inventory, item);
+            } else if (action == "quit") {
+                break;
+            } else {
+                std::cout << "Invalid action" << std::endl;
+            }
+        }
+    }
+
+private:
+    // Function to handle the player's move action
+    void move(std::string &location, std::string direction) {
+        if (location == "starting room" && direction == "north") {
+            location = "forest";
+        } else if (location == "forest" && direction == "south") {
+            location = "starting room";
+        } else if (location == "forest" && direction == "east") {
+            location = "cave";
+        } else if (location == "cave" && direction == "west") {
+            location = "forest";
+        } else {
+            std::cout << "Invalid direction" << std::endl;
+        }
+    }
+
+    // Function to handle the player's pick up action
+    void pickUp(std::string location, std::vector<std::string> &inventory, std::string item) {
+        if (location == "starting room" && item == "key") {
+            inventory.push_back("key");
+            std::cout << "
